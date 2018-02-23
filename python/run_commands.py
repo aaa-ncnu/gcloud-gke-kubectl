@@ -1,14 +1,14 @@
 import os, subprocess, string, sys;
 
 environment_var = os.getenv('PLUGIN_KUBECTL_COMMANDS', '')
-print os.getenv('PLUGIN_KUBECTL_COMMANDS', '')
+
 returncode = 0
 if environment_var:
   commands = string.split(environment_var, ",")
 
   for command in commands:
     try:
-      p = subprocess.Popen('kubectl ' + str(command), shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+      p = subprocess.Popen('kubectl ' + str(command), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=os.environ)
       (out,err) = p.communicate()
       if p.returncode == 0:
         print ("command kubectl %s succeeded, returned: %s" % (str(command),str(out)))
